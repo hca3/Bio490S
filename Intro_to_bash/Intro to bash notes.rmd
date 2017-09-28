@@ -1,0 +1,48 @@
+---
+title: Lab Notes 14/19 Sept
+---
+
+Project Overview
+- Get your data
+- Clean your data
+	- Data will have experimental, control, maybe a time series, maybe different species
+- Ask a question about your data (each person should have a different question)
+	- Time series, across species, across isoforms, etc.
+- Final product is a paper
+	- Intro (together as group)
+	- Methods (cleaning as group, more individual analyses)
+	- Results (individual based on your question)
+	- Discussion (individual based on your question)
+
+Cluster Basics
+- use the powerpoint to log into the terminal when necessary https://github.com/cryancampbell/duke-bio490s/blob/master/slides/20170914_Introtobash_Lab.pdf
+
+More Cluster Notes
+- log in
+- change cd to /work/cc216/490S/hca3
+- do stuff in my own happy folder
+- ./ means "here"
+- input goes after commnand, output prints to screen by default 
+- using > writes a file called list.txt and puts info into it, rather than printing to screen. it will OVERWRITE what already exists. >> appends to a preexisting file
+- this dude | takes something and passes it into the next command aka takes output of first command, and feeds it to the next command to work with. "pipe". chains things together
+- cat, less, head, tail all have important functions
+	- cat prints whole thing to screen
+	- less
+	- head prints first 10 lines
+	- tail prints last 10 lines
+	- use -n to print more lines than the default 10
+- sort sorts, doesnt change file but prints to output, -n will go numerically (rather than alphanumerically, which is what happens in regular sort); -r sorts in reverse; -t, defines the character following t as the field separator; and -k sort by the nth field, put number after k
+- uniq removes adjacent duplicates. sort <file> | uniq or -u 
+	- -c gives you number of times each thing showed up
+- cut takes input and divides it into columns. must use -d<delimiter> and -f<what columsn you want back> <name of file>
+***do not use commas or spaces in sample names
+- grep, sed, awk
+	- grep searches a regular expression, has millions of flags
+	- -A and -B are particularly useful...show lines above and below your grep
+	- sed is a find and replace, of a pattern. really really powerful
+	- awk (powerful and mysterious!) lets you do math 
+- . is anything, * is really really anything
+
+- Netflix nominated for 18 emmys in 2015, 7 unique shows, House of Cards had the most
+- Game of Thrones has been nominated 73 times
+

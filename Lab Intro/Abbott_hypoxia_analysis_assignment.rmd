@@ -1,0 +1,53 @@
+---
+title: "Abbott RStudio Plot Assignment"
+name: Helena Abbott
+output: html_document
+---
+
+Data description - short version of RNAseq output from cufflinks, comparing human cells in hypoxic and normal conditions, gene families included are:
+TOMM - Translocase of outer mitochondrial membrane
+TIMM - Translocase of inner mitochondrial membrane
+ZNF - Zinc Finger
+RAS - involved in transmitting signals within cells
+OR - Olfactory Receptors
+PK - Protein Kinases
+HK - Hexokinase
+NFK - Nuclear Factor Kappa
+
+```{r}
+
+getwd()
+
+setwd("/Users/HelenaCAbbott/Bio490S/Lab Intro/")
+
+list.files()
+
+```
+
+```{r}
+
+hypoxiaRaw <- read.table("hsap_hypoxia_gene_exp_FORCLASS.diff", header = TRUE, dec = ".")
+
+hypoxiaTested <- hypoxiaRaw[hypoxiaRaw$status == "OK",]
+
+hypoxiaTIMM <- hypoxiaTested[hypoxiaTested$gene_family == "TIMM",]
+
+```
+
+First, I plotted TIMM data in hypoxic and normal conditions as compared to all of the data, to explore the general trends in the TIMM data. Then, I plotted the change in expression as compared to the p-value to explore if any of the changes were significant.
+I chose to explore TIMM becuase hypoxia could impact the electron transport chain, which is located in the inner mitochondrial membrane. If ETC was impacted during hypoxia, perhaps the genes controlling protein transport in the region would be impacted as a cell responded to its conditions.
+
+```{r}
+plot(hypoxiaTested$value_2,hypoxiaTested$value_1, xlim = c(0,100), ylim = c(0,100), col = "grey30", ylab = "TIMM, Hypoxic Condition", xlab = "TIMM, Normal Condition")
+points(hypoxiaTIMM$value_2,hypoxiaTIMM$value_1, col = "red", pch = 19)
+
+plot(hypoxiaTIMM$log2.fold_change.,hypoxiaTIMM$p_value, xlim = c(-5,5), ylim = c(0,1), col = ifelse(hypoxiaTIMM$p_value > 0.05, "grey30", "red"), ylab = "p value", xlab = "TIMM, Change in Levels")
+```
+
+The first plot indicates that there is not an extremely obvious or systematic change in TIMM levels in hypoxic versus normal conditions. This subtlety made the second plot valuable, as it indicates that there are significant levels of change (the red dots), and that in those cases hypoxic levels of expression were higher than normal levels, as the change value is negative.
+
+
+
+
+
+EOF

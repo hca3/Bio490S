@@ -1,0 +1,80 @@
+---
+title: Abbott R Intro Assignment
+---
+
+Data Set: 2008 to 2016 Presidential Election Data
+  Region: MidAtlantic, MidWest, NewEngland, South, West
+  CD: Congressional District (435 total)
+  Incumbent: Representative Name
+  Party: Democrat "(D)" vs. Republican "(R)"
+  Clinton.2016: Percent of votes for Clinton in 2016
+  Trump.2016: Percent of votes for Trump in 2016
+  Obama.2012: Percent of votes for Obama in 2012
+  Romney.2012: Percent of votes for Romney in 2012
+  Obama.2008: Percent of votes for Obama in 2008
+  McCain.2008: Percent of votes for McCain in 2008
+  
+```{r}
+
+presElections <- read.table(file = "2008to2016PresElections.diff", header = TRUE, sep = ",", dec = ".")
+
+sum(is.na(presElections)) #establish no missing data
+
+south08 <- subset(presElections, Region == "South", select = c(CD, Region, Party, Obama.2008))
+
+neweng08 <- subset(presElections, Region == "NewEngland", select = c(CD, Region, Party, Obama.2008))
+
+south12 <- subset(presElections, Region == "South", select = c(CD, Region, Party, Obama.2012))
+
+neweng12 <- subset(presElections, Region == "NewEngland", select = c(CD, Region, Party, Obama.2012))
+
+```
+
+Did the mean percentage of votes for Obama in the Southern states change between 2008 and 2012? In New England states?
+
+My hypothesis is that yes, the mean percentage of votes for Obama would change. When people voted in 2008, they were voting on impressions of Obama as a person as well as his stated platform. In 2012, they were voting not only on those factors, but also on his past performance as a president. I think this additional information could polarize people who were on the fence about Obama in one direction or another, perhaps leading to a lesser proportion of people to vote for him in southern districts, which trend republican, and a larger proportion of people to vote for him in New England districts, which lean more democrat.
+
+```{r}
+
+t.test(south08$Obama.2008, south12$Obama.2012)
+
+t.test(neweng08$Obama.2008, neweng12$Obama.2012)
+
+```
+
+These t-test results indicate that neither mean percentage of votes changed significantly between 2008 and 2012, indicating that within the South and within New England, people voted consistently. This did not align with my expectation, but could be explained as the South and New England are two regions of the country with pretty firmly cemented beliefs. They also are only small subsets of the country, so the N value for the t-test was low. Therefore, I decided to segment the data by democrat vs republican districts (as judged by their incumbent representative) rather than region and to test to see if the mean percentage of votes for Obama changed between 2008 and 2012 in democrat and republican districts
+
+```{r}
+
+dem08 <- subset(presElections, Party == "(D)", select = c(Party, Region, Obama.2008))
+
+rep08 <- subset(presElections, Party == "(R)", select = c(Party, Region, Obama.2008))
+
+dem12 <- subset(presElections, Party == "(D)", select = c(Party, Region, Obama.2012))
+
+rep12 <- subset(presElections, Party == "(R)", select = c(Party, Region, Obama.2012))
+
+t.test(dem08$Obama.2008, dem12$Obama.2012)
+t.test(rep08$Obama.2008, rep12$Obama.2012)
+
+```
+
+These t-tests yielded a result closer to that which I hypothesized - while there was not a significant change in the percentage of votes for Obama between 2008 and 2012 in democratic districts, there was a decrease in the mean percentage of votes for Obama in republican districts. This change was found to be significant, as the p-value is less that 0.05, indicating that the true difference in means is not equal to zero.
+
+The histograms below illustrate the distribution of voting percentages within the democratic and republican parties in 2008 versus 2012. Although there is a difference in the means for the republican party, the difference is very subtle when the scale is between 0 and 100 percent, though it becomes more discernible when the scale is modified to only focus on the data.
+
+```{r}
+
+hist(dem08$Obama.2008, xlim = c(0, 100), col = "light blue", main = "Democratic Voting Patterns", xlab = "Percent of Votes for Obama", ylab = "Number of Districts")
+hist(dem12$Obama.2012, add = T, col = rgb(0, 1, 0, 0.10))
+legend("topright", c("2008", "2012"), fill = c("light blue", rgb(0, 1, 0, 0.10)))
+
+hist(rep08$Obama.2008, xlim = c(0, 100), col = "light yellow", main = "Republican Voting Patterns", xlab = "Percent of Votes for Obama", ylab = "Number of Districts")
+hist(rep12$Obama.2012, add = T, col = rgb(1, 0, 0, 0.10))
+legend("topright", c("2008", "2012"), fill = c("light yellow", rgb(1, 0, 0, 0.1)))
+
+hist(rep08$Obama.2008, xlim = c(15, 60), col = "light yellow", main = "Republican Voting Patterns", xlab = "Percent of Votes for Obama", ylab = "Number of Districts")
+hist(rep12$Obama.2012, add = T, col = rgb(1, 0, 0, 0.10))
+legend("topright", c("2008", "2012"), fill = c("light yellow", rgb(1, 0, 0, 0.1)))
+
+```

@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+#SBATCH —job-name=test_script
+#SBATCH —-output=/work/cc216/490S/hca3/test.out
+#SBATCH —-error=/work/cc216/490S/hca3/test.err
+#
+#SBATCH --mem=2G
+#SBATCH —nodes=1
+
+cd /work/cc216/490S/hca3/
+date
+sleep 60
+date
+touch script_is_done.finish

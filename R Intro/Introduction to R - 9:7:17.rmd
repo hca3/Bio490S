@@ -1,0 +1,59 @@
+Introduction to R - 9/7/17
+
+Vectors
+```{r}
+
+a <- c(15,12,10,93) #c means make a vector of these things
+a[2] #calls a certain location, three different ways
+a[c(2,4)]
+a[c(FALSE, TRUE,TRUE,FALSE)]
+a*5
+a + c(1,1,10,-50)
+a + c(1,5) #it repeats the these commands across a i.e. +1 +5 +1 +5
+
+```
+Data Frames
+- can also be accessed by dataframe[row,column]
+
+```{r}
+
+hypoxiaTested[,1]
+hypoxiaTested[1:20,1]
+
+```
+
+Functions
+- things you can do with variables
+
+plot()
+ttest()
+read.table()
+- to give R a file path, starting with a / is the absolute path from the computer root
+- just a file name suggests its in THE working directory
+- ../filename means go up one, and then look
+- header(true/false) to let it know if you do/do not have a header
+- dec specifies what character represents decimals [this also tells R that your data is numeric]
+- if you want to save it (which you do), give it a name <- read.table(hi)
+
+use help, ?, google, tabbing to figure out how to full these functions
+
+use $ to access a column within a data frame
+also use $ to ADD a column to an existing data frame
+
+Visualizing Data
+
+histograms! scatterplots! hist() and plot()
+
+Do a Simple T-Test with random normal data
+- significance is based on difference in means and n when doing a t test
+- major assumption of t-test is equal standard deviations//variances
+```{r}
+set.seed(seed = 400)
+meanzero <- rnorm(20, 0, 1) #100 values, mean zero, SD 1
+meanplus <- rnorm(20, 0.01, 1)
+
+hist(meanplus)
+hist(meanzero, add = T, col = "red")
+
+t.test(meanzero, meanplus)
+```
